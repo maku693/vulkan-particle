@@ -3,7 +3,7 @@ Set-StrictMode -Version Latest
 Push-Location
 
 $vsWhereExe = "${Env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-Write-Output "vswhere.ext found: $vsWhereExe"
+Write-Output "vswhere.exe found: $vsWhereExe"
 if (!(Test-Path $vsWhereExe)) {
     throw "Could not find vswhere.exe."
 }
