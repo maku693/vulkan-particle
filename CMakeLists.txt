@@ -17,3 +17,8 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     ${Vulkan_LIBRARY})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    "UNICODE"
+    "_UNICODE"
+    "VK_USE_PLATFORM_WIN32_KHR")
