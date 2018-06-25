@@ -6,5 +6,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(Vulkan REQUIRED)
+
 add_executable(${PROJECT_NAME} WIN32
     src/main.cpp)
+
+target_include_directories(${PROJECT_NAME}
+    SYSTEM PUBLIC ${Vulkan_INCLUDE_DIRS}
+    PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+
+target_link_libraries(${PROJECT_NAME}
+    ${Vulkan_LIBRARY})
