@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME} WIN32
 
 target_include_directories(${PROJECT_NAME}
     SYSTEM PUBLIC ${Vulkan_INCLUDE_DIRS}
+    SYSTEM PUBLIC "${CMAKE_CURRENT_LIST_DIR}/third_party/GSL/include"
     PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
 target_link_libraries(${PROJECT_NAME}
