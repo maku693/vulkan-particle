@@ -16,11 +16,15 @@ LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 void register_window_class() {
+  const auto hinstance = ::GetModuleHandleW(nullptr);
+  if (::GetClassInfoExW(hinstance, window_class_name, nullptr)) {
+    return;
+  }
   WNDCLASSEXW wcex{};
   wcex.cbSize = sizeof(WNDCLASSEXW);
   wcex.style = CS_HREDRAW | CS_VREDRAW;
   wcex.lpfnWndProc = wndproc;
-  wcex.hInstance = ::GetModuleHandleW(nullptr);
+  wcex.hInstance = hinstance;
   wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
   wcex.lpszClassName = window_class_name;
   ::RegisterClassExW(&wcex);
@@ -35,6 +39,8 @@ HWND create_window() {
                            640, 480, nullptr, nullptr,
                            ::GetModuleHandleW(nullptr), nullptr);
 }
+
+void show_window(const HWND hwnd) { ::ShowWindow(hwnd, SW_SHOWDEFAULT); }
 
 bool process_messages() {
   MSG msg{};
