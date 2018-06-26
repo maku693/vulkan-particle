@@ -10,8 +10,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(Vulkan REQUIRED)
 
-add_executable(${PROJECT_NAME} WIN32
-    src/main.cpp)
+file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
+
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME}
     SYSTEM PUBLIC ${Vulkan_INCLUDE_DIRS}
