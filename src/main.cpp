@@ -64,9 +64,13 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
                                             extension_names.data()});
 
   const auto hwnd = win32::create_window();
+  const auto surface =
+      instance.createWin32SurfaceKHR({{}, win32::get_hinstance(), hwnd});
+
   win32::show_window(hwnd);
   while (win32::process_messages()) {
   }
 
+  instance.destroySurfaceKHR(surface);
   instance.destroy();
 }

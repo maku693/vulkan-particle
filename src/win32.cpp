@@ -16,7 +16,7 @@ LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 void register_window_class() {
-  const auto hinstance = ::GetModuleHandleW(nullptr);
+  const auto hinstance = get_hinstance();
   if (::GetClassInfoExW(hinstance, window_class_name, nullptr)) {
     return;
   }
@@ -32,12 +32,13 @@ void register_window_class() {
 
 } // namespace detail
 
+HINSTANCE get_hinstance() { return ::GetModuleHandleW(nullptr); }
+
 HWND create_window() {
   detail::register_window_class();
-  return ::CreateWindowExW(0, detail::window_class_name, L"",
-                           WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-                           640, 480, nullptr, nullptr,
-                           ::GetModuleHandleW(nullptr), nullptr);
+  return ::CreateWindowExW(
+      0, detail::window_class_name, L"", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
+      CW_USEDEFAULT, 640, 480, nullptr, nullptr, get_hinstance(), nullptr);
 }
 
 void show_window(const HWND hwnd) { ::ShowWindow(hwnd, SW_SHOWDEFAULT); }
