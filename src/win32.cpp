@@ -2,7 +2,7 @@
 
 namespace win32 {
 
-namespace detail {
+namespace {
 
 static constexpr auto window_class_name = L"main";
 
@@ -35,9 +35,9 @@ void register_window_class() {
 HINSTANCE get_hinstance() { return ::GetModuleHandleW(nullptr); }
 
 HWND create_window() {
-  detail::register_window_class();
+  register_window_class();
   return ::CreateWindowExW(
-      0, detail::window_class_name, L"", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
+      0, window_class_name, L"", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
       CW_USEDEFAULT, 640, 480, nullptr, nullptr, get_hinstance(), nullptr);
 }
 
