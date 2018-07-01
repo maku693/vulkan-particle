@@ -1,9 +1,12 @@
 #include "vkutils.h"
 #include "win32.h"
 #include <Windows.h>
+#include <vector>
 #include <vulkan/vulkan.hpp>
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
+  const auto hwnd = win32::create_window();
+  
   vk::ApplicationInfo app_info{nullptr, 0, nullptr, 0, VK_VERSION_1_1};
 
   const auto found_layer_names =
@@ -29,9 +32,23 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
                                             extension_names.size(),
                                             extension_names.data()});
 
-  const auto hwnd = win32::create_window();
   const auto surface =
       instance.createWin32SurfaceKHR({{}, win32::get_hinstance(), hwnd});
+
+  const auto gpu = instance.enumeratePhysicalDevices().front();
+
+  const auto queue_family_props = gpu.getQueueFamilyProperties();
+
+  const auto graphics_queue_family_index =
+      vkutils::queue_family_index_by_queue_flags(queue_family_props,
+          vk::QueueFlagBits::eGraphics);
+
+  const auto compute_queue_family_index =
+      vkutils::queue_family_index_by_queue_flags(queue_family_props,
+          vk::QueueFlagBits::eCompute);
+
+  const auto surface_queue_family_index =
+      vkutils::present_queue_family(queue_family_props, gpu, surface);
 
   win32::show_window(hwnd);
   while (win32::process_messages()) {
