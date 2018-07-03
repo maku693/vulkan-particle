@@ -7,12 +7,6 @@
 
 namespace vkutils {
 
-std::set<std::string_view>
-find_instance_layers(const std::set<std::string_view> &);
-
-std::set<std::string_view>
-find_instance_extensions(const std::set<std::string_view> &);
-
 std::optional<ptrdiff_t> queue_family_index_by_queue_flags(
     const std::vector<vk::QueueFamilyProperties> &, const vk::QueueFlags);
 
