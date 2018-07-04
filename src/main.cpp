@@ -71,6 +71,15 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
   const auto surface_queue =
       device.getQueue(surface_queue_family_index.value(), surface_queue_index);
 
+  const auto surface_formats = gpu.getSurfaceFormatsKHR(surface);
+  const auto& surface_format =
+      *std::find_if(surface_formats.cbegin(), surface_formats.cend(),
+                   [](const vk::SurfaceFormatKHR &x) {
+                     return x.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear &&
+                            x.format == vk::Format::eB8G8R8A8Unorm;
+                   });
+
+
   win32::show_window(hwnd);
   while (win32::process_messages()) {
   }
